@@ -2,6 +2,13 @@
 
 Este README contém as instruções para configurar e executar o Back_end do projeto WhatsApp Web Clone, que é um servidor serverless desenvolvido com Google Cloud Functions e integrações com IA Gemini e Google Cloud Tasks.
 
+## Como Obter a API Key do Gemini
+
+Para obter a API key do Gemini, siga os seguintes passos:
+
+1. Acesse o Google AI Studio: [https://aistudio.google.com/](https://aistudio.google.com/).
+2. Crie a chave em "Get API Key". O site fornecerá instruções detalhadas sobre como proceder.
+
 ## Pré-requisitos
 
 1. **Separação das Funções em Cloud Functions**: Certifique-se de que as funções `Task`, `IA_Process` e `audio_gemini` estejam configuradas em Cloud Functions separadas, para garantir uma melhor organização e escalabilidade do sistema.
