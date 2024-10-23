@@ -51,7 +51,8 @@ Dentro da `Servidor_IA_Process`, existem 7 funções principais:
    - **IA 2**: Caso a mensagem seja um arquivo de áudio, imagem ou vídeo, esta IA cria uma transcrição para salvar no histórico do chat da IA, sem precisar anexar o conteúdo original em cada interação, o que aumenta a velocidade de resposta.
    - **IA 3**: Gera a resposta ao cliente, que pode ser em formato de texto, áudio, imagem ou vídeo, dependendo da solicitação.
    - **IA 4**: Verifica se o cliente está solicitando suporte humano. Utilizando o histórico da conversa, se a IA identificar a necessidade de suporte, ela automaticamente bloqueia o cliente e chama o suporte humano. O formato é `{bloqueio: false || true}`.
-
+   - 
+Além disso, esta função também considera o horário de atendimento humano, definido no final do código. Certifique-se de ajustar este horário de acordo com o seu projeto.
 
 4. **sendEmail**: Esta função notifica por e-mail um funcionário da empresa quando os clientes são bloqueados pelo sistema.
 

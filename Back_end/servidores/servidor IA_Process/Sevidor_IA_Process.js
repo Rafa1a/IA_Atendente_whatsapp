@@ -16,6 +16,8 @@ admin.initializeApp();
 
 //Token do whatsapp :
 const GRAPH_API_TOKEN = process.env.GRAPH_API_TOKEN;
+//primeira mensagem que a IA manda mensagem de abertura da conversa. 
+const msg = `Olá! Sou a IA da Nome_da_empresa, treinada com um alto nível de conhecimento técnico e pronta para responder às suas perguntas. Envie uma mensagem de cada vez e aguarde minha resposta.\n\nA IA tem o atendimento 24horas.\n\nPara suporte técnico (humano), peça pelo suporte.\n\nNosso horário de atendimento suporte técnico é de segunda a sexta das 8:30 às 12:00 e das 13:30 às 17:30.\n\nVamos começar?`;
 
 // Função HTTP para lidar com o webhook
 functions.http('whatsappWebhook', async (req, res) => {
@@ -124,12 +126,12 @@ functions.http('whatsappWebhook', async (req, res) => {
             const aviso_cliente = history_cliente && history_cliente.avisos? history_cliente.avisos : 0;
             //se o cliente nao existe ainda : 
             if(aviso_cliente==0){
-                const msg = 'Você está fazendo perguntas que não são relacionadas com a Allnec. Por favor, foque em perguntas sobre os nossos produtos.'
+                const msg = 'Você está fazendo perguntas que não são relacionadas com a Nome_da_empresa. Por favor, foque em perguntas sobre os nossos produtos.'
                 await resposta_cliente(msg,business_phone_number_id,message);
                 history_cliente.avisos = aviso_cliente + 1
                 await salvar_servidor(transaction,docref_id_phone_history,history_cliente,'text',msg,'model')
             } else if (aviso_cliente == 1) {
-                const msg = 'Você está fazendo perguntas que não são relacionadas com a Allnec, seus produtos ou usos específicos dos produtos. Esta é a PRIMEIRA advertência. Na SEGUNDA, você será BLOQUEADO . Não concorda com esta advertência? Chame o "suporte" e nos avise sobre o erro, para que possamos melhorar. Boa conversa'
+                const msg = 'Você está fazendo perguntas que não são relacionadas com a Nome_da_empresa, seus produtos ou usos específicos dos produtos. Esta é a PRIMEIRA advertência. Na SEGUNDA, você será BLOQUEADO . Não concorda com esta advertência? Chame o "suporte" e nos avise sobre o erro, para que possamos melhorar. Boa conversa'
                 await resposta_cliente(msg,business_phone_number_id,message);
                 history_cliente.avisos = aviso_cliente + 1
                 await salvar_servidor(transaction,docref_id_phone_history,history_cliente,'text',msg,'model')
@@ -141,7 +143,7 @@ functions.http('whatsappWebhook', async (req, res) => {
                 history_cliente.history_bloqueio = [];
                 //data do bloqueio
                 history_cliente.date = Date.now().toString()
-                const msg = 'Você está fazendo perguntas que não são relacionadas à Allnec, seus produtos ou usos específicos dos produtos. Você foi BLOQUEADO . Não concorda com esta advertência? Como você foi bloqueado, todas as mensagens irão diretamente para um ser humano, então você pode fazer sua reclamação a partir de agora.\n Lembre-se, não atendemos aos sábados e domingos. Tenha um bom dia.'
+                const msg = 'Você está fazendo perguntas que não são relacionadas à Nome_da_empresa, seus produtos ou usos específicos dos produtos. Você foi BLOQUEADO . Não concorda com esta advertência? Como você foi bloqueado, todas as mensagens irão diretamente para um ser humano, então você pode fazer sua reclamação a partir de agora.\n Lembre-se, não atendemos aos sábados e domingos. Tenha um bom dia.'
                 await resposta_cliente(msg,business_phone_number_id,message);
                 sendEmail('Cliente bloqueado por PERGUNTAS NÃO RELACIONADAS',`O cliente ${nome_cliente} com o número ${phone_number} foi bloqueado .`);
                 await salvar_servidor(transaction,docref_id_phone_history,history_cliente,'text',msg,'model')
@@ -568,7 +570,7 @@ functions.http('whatsappWebhook', async (req, res) => {
                 if (!data_phone_history) {
                     res.sendStatus(200);
                     console.log('apenas testando')
-                    const msg = `Olá! Sou a IA da Allnec, treinada com um alto nível de conhecimento técnico e pronta para responder às suas perguntas. Envie uma mensagem de cada vez e aguarde minha resposta.\n\nA IA tem o atendimento 24horas.\n\nPara suporte técnico (humano), peça pelo suporte.\n\nNosso horário de atendimento suporte técnico é de segunda a sexta das 8:30 às 12:00 e das 13:30 às 17:30.\n\nVamos começar?`;
+                    
                     await axios({
                         method: 'POST',
                         url: `https://graph.facebook.com/v20.0/${business_phone_number_id}/messages`,
@@ -638,7 +640,6 @@ functions.http('whatsappWebhook', async (req, res) => {
         
                 if (!data_phone_history) {
                     res.sendStatus(200);
-                    const msg = `Olá! Sou a IA da Allnec, treinada com um alto nível de conhecimento técnico e pronta para responder às suas perguntas. Envie uma mensagem de cada vez e aguarde minha resposta.\n\nA IA tem o atendimento 24horas.\n\nPara suporte técnico (humano), peça pelo suporte.\n\nNosso horário de atendimento suporte técnico é de segunda a sexta das 8:30 às 12:00 e das 13:30 às 17:30.\n\nVamos começar?`;
                     await axios({
                         method: 'POST',
                         url: `https://graph.facebook.com/v20.0/${business_phone_number_id}/messages`,
@@ -736,7 +737,7 @@ functions.http('whatsappWebhook', async (req, res) => {
                 // console.log('history_cliente', history_cliente)
                 if (!data_phone_history) {
                     res.sendStatus(200);
-                    const msg = `Olá! Sou a IA da Allnec, treinada com um alto nível de conhecimento técnico e pronta para responder às suas perguntas. Envie uma mensagem de cada vez e aguarde minha resposta.\n\nA IA tem o atendimento 24horas.\n\nPara suporte técnico (humano), peça pelo suporte.\n\nNosso horário de atendimento suporte técnico é de segunda a sexta das 8:30 às 12:00 e das 13:30 às 17:30.\n\nVamos começar?`;
+                    
                     await axios({
                         method: 'POST',
                         url: `https://graph.facebook.com/v20.0/${business_phone_number_id}/messages`,
@@ -839,7 +840,7 @@ functions.http('whatsappWebhook', async (req, res) => {
                 let history_cliente = data_phone_history && data_phone_history.history_cliente? data_phone_history.history_cliente : { phone: phone_number, avisos: 0, name: nome_cliente ,bloqueio_ia: false,bloqueio_user: false, history_bloqueio:[], history: [],whatsapp_messages: [], user_avatar:"" };
                 if (!data_phone_history) {
                     res.sendStatus(200);
-                    const msg = `Olá! Sou a IA da Allnec, treinada com um alto nível de conhecimento técnico e pronta para responder às suas perguntas. Envie uma mensagem de cada vez e aguarde minha resposta.\n\nA IA tem o atendimento 24horas.\n\nPara suporte técnico (humano), peça pelo suporte.\n\nNosso horário de atendimento suporte técnico é de segunda a sexta das 8:30 às 12:00 e das 13:30 às 17:30.\n\nVamos começar?`;
+                    
                     await axios({
                         method: 'POST',
                         url: `https://graph.facebook.com/v20.0/${business_phone_number_id}/messages`,
@@ -940,7 +941,6 @@ functions.http('whatsappWebhook', async (req, res) => {
 
                 if (!data_phone_history) {
                     res.sendStatus(200);
-                    const msg = `Olá! Sou a IA da Allnec, treinada com um alto nível de conhecimento técnico e pronta para responder às suas perguntas. Envie uma mensagem de cada vez e aguarde minha resposta.\n\nA IA tem o atendimento 24horas.\n\nPara suporte técnico (humano), peça pelo suporte.\n\nNosso horário de atendimento suporte técnico é de segunda a sexta das 8:30 às 12:00 e das 13:30 às 17:30.\n\nVamos começar?`;
                     await axios({
                         method: 'POST',
                         url: `https://graph.facebook.com/v20.0/${business_phone_number_id}/messages`,
